@@ -25,7 +25,8 @@ get_header();
                             </div>
                             <p>Give us just a few details on your project here, and we'll shortly continue discussion in person.</p>
                         </div>
-                        <form autocomplete="off" class="col-holder">
+                        <?php echo do_shortcode('[contact-form-7 id="b1a5c71" title="contact-form"]') ?>
+                        <!-- <form autocomplete="off" class="col-holder">
                             <input name="hidden" autocomplete="false" style="display:none">
                             <div class="col">
                                 <div class="left-form">
@@ -70,7 +71,7 @@ get_header();
                                     </label>
                                 </div>
                             </div>
-                        </form>
+                        </form> -->
                         <div class="col-holder">
                             <div class="col btn-holder">
                                 <div class="img-holder">
@@ -83,20 +84,6 @@ get_header();
                                     <div class="rectangle5"></div>
                                     <div class="rectangle6"></div>
                                     <div class="rectangle7"></div>
-                                </div>
-                                <button class="btn" type="submit">Send</button>
-                            </div>
-                        </div>
-                        <div class="contact-popup">
-                            <div class="popup-text">
-                                <div class="anim-holder">
-                                    <img alt="img" src="<?php bloginfo('template_url'); ?>/assets/img/Avice.svg">
-                                </div>
-                                <div class="anim-holder">
-                                    <h4>We're here for you! </h4>
-                                </div>
-                                <div class="anim-holder">
-                                    <p>You're already one step closer to the launch of your product!</p>
                                 </div>
                             </div>
                         </div>
@@ -113,5 +100,21 @@ get_header();
 </div>
 </div>
 <?php get_footer(); ?>
-</body></html>
 
+<style>
+    body {
+        overflow: hidden;
+    }
+    .contact-page .btn-holder .img-1 {
+        justify-content: flex-end;
+    }
+    .btn-holder {
+        margin: auto;
+    }
+    .btn {
+        padding: 12px 50px 15px;
+    }
+    .placeholder {
+        color: rgba(255, 255, 255, 0.9);
+    }
+</style>
