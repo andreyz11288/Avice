@@ -4552,7 +4552,12 @@ section {
   resize: none;
 }
 
-.contact-page .left-form label.hide-message {
+.contact-page .left-form div.hide-message {
+  display: none;
+}
+
+.header-holder .menu .message-for-mobile,
+.header-holder2 .menu .message-for-mobile {
   display: none;
 }
 
@@ -6287,7 +6292,11 @@ form label.has-errors .error-msg {
   .contact-page .right-form {
     display: none;
   }
-  .contact-page .left-form label.hide-message {
+  .contact-page .left-form div.hide-message {
+    display: block;
+  }
+  .header-holder .menu .message-for-mobile,
+  .header-holder2 .menu .message-for-mobile {
     display: block;
   }
   .contact-page .col label {

@@ -1,16 +1,16 @@
 jQuery(document).ready(function ($) {
-  $(window).scroll(function () {
-    var scroll = $(window).scrollTop()
-    var header = $('#header')
-    var headerHolder = $('.header-holder')
-    var headerHolder2 = $('.header-holder2')
+  if ($(window).width() > 768) {
+    $(window).scroll(function () {
+      var scroll = $(window).scrollTop()
+      var header = $('#header')
 
-    if (scroll > 0) {
-      header.addClass('fixed-position')
-    } else {
-      header.removeClass('fixed-position')
-    }
-  })
+      if (scroll > 0) {
+        header.addClass('fixed-position')
+      } else {
+        header.removeClass('fixed-position')
+      }
+    })
+  }
 })
 
 // скролл -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -175,4 +175,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   setInterval(updateClasses, 10000)
+})
+
+jQuery(document).ready(function ($) {
+  $('.nav-opener').on('click', function () {
+    $('header').toggleClass('nav-active')
+  })
 })

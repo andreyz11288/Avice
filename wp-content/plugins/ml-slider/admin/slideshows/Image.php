@@ -152,8 +152,13 @@ $images = $this->get_theme_images($theme_id);
         if ($settings = get_option('metaslider_global_settings')) {
             $global_settings = $settings;
         }
+
+        $new_install = get_option('metaslider_new_user');
         
-        if(isset($global_settings['legacy']) && true == $global_settings['legacy']) {
+        if (
+            (isset($global_settings['legacy']) && true == $global_settings['legacy']) ||
+            (isset($new_install)  && 'new' == $new_install)
+        ) {
             $manifest_file = 'manifest.php';
         } else {
             $manifest_file = 'manifest-legacy.php';

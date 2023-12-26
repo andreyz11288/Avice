@@ -179,11 +179,18 @@
 					id="custom-themes"
 					:title="__('My Custom Themes', 'ml-slider')">
 					<template v-if="!proUser">
-						<h1 class="customtheme-list-h">{{ __('Get MetaSlider Pro!', 'ml-slider') }}</h1>
-						<p class="customtheme-list-p">
-							{{ __('Upgrade now to build your own custom themes!', 'ml-slider') }}
-						</p>
-						<a class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-white bg-orange hover:bg-orange-darker active:bg-orange-darkest transition ease-in-out duration-150 md:w-auto md:text-sm md:leading-5" :href="hoplink">{{ __('Learn more', 'ml-slider') }}</a>
+						<div class="promo-wrapper clearfix">
+							<div class="col left">
+								<img :src="asset('images/hero-theme-editor.jpg')" class="w-full block">
+							</div>
+							<div class="col right">
+								<h1 class="customtheme-list-h">{{ __('Get MetaSlider Pro!', 'ml-slider') }}</h1>
+								<p class="customtheme-list-p">
+									{{ __('Upgrade now to build your own custom themes!', 'ml-slider') }}
+								</p>
+								<a class="w-full inline-flex items-center justify-center px-6 py-4 border border-transparent font-medium rounded-md text-white bg-orange hover:bg-orange-darker active:bg-orange-darkest transition ease-in-out duration-150 md:w-auto md:text-xl md:leading-5" :href="hoplink" target="_blank">{{ __('Upgrade now', 'ml-slider') }} <span class="dashicons dashicons-external upgrade-icon"></span></a>
+							</div>
+						</div>
 					</template>
 					<div v-if="loadingCustom">
                         {{ __('Loading...', 'ml-slider') }}
@@ -193,7 +200,7 @@
 						<p class="customtheme-list-p">
 							{{ __('You can create your own themes with our theme editor', 'ml-slider') }}	
 						</p>
-						<a class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-white bg-orange hover:bg-orange-darker active:bg-orange-darkest transition ease-in-out duration-150 md:w-auto md:text-sm md:leading-5" :href="themeEditorLink">{{ __('Get started', 'ml-slider') }}</a>
+						<a class="w-full inline-flex items-center justify-center px-6 py-4 border border-transparent font-medium rounded-md text-white bg-orange hover:bg-orange-darker active:bg-orange-darkest transition ease-in-out duration-150 md:w-auto md:text-xl md:leading-5" :href="themeEditorLink">{{ __('Get started', 'ml-slider') }}</a>
 					</template>
 					<div
 						v-if="Object.keys(customThemes).length && proUser"

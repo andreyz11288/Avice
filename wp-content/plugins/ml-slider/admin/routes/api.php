@@ -651,6 +651,38 @@ class MetaSlider_Api
             $fields['new_window'] = sanitize_text_field($fields['new_window']);
         }
 
+        if (isset($fields['hide_slide_smartphone'])) {
+            $fields['hide_slide_smartphone'] = sanitize_text_field($fields['hide_slide_smartphone']);
+        }
+
+        if (isset($fields['hide_slide_tablet'])) {
+            $fields['hide_slide_tablet'] = sanitize_text_field($fields['hide_slide_tablet']);
+        }
+
+        if (isset($fields['hide_slide_laptop'])) {
+            $fields['hide_slide_laptop'] = sanitize_text_field($fields['hide_slide_laptop']);
+        }
+
+        if (isset($fields['hide_slide_desktop'])) {
+            $fields['hide_slide_desktop'] = sanitize_text_field($fields['hide_slide_desktop']);
+        }
+
+        if (isset($fields['hide_caption_smartphone'])) {
+            $fields['hide_caption_smartphone'] = sanitize_text_field($fields['hide_caption_smartphone']);
+        }
+
+        if (isset($fields['hide_caption_tablet'])) {
+            $fields['hide_caption_tablet'] = sanitize_text_field($fields['hide_caption_tablet']);
+        }
+
+        if (isset($fields['hide_caption_laptop'])) {
+            $fields['hide_caption_laptop'] = sanitize_text_field($fields['hide_caption_laptop']);
+        }
+
+        if (isset($fields['hide_caption_desktop'])) {
+            $fields['hide_caption_desktop'] = sanitize_text_field($fields['hide_caption_desktop']);
+        }
+        
         return $fields;
     }
 
@@ -906,6 +938,9 @@ class MetaSlider_Api
             $analytics = new MetaSlider_Analytics();
             $analytics->optin();
         }
+
+        // for legacy library
+        update_option('metaslider_new_user', 'old');
 
         wp_send_json_success($settings, 200);
     }

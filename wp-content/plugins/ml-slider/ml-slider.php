@@ -5,7 +5,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: MetaSlider gives you the power to create a beautiful slideshow, carousel, or gallery on your WordPress site.
- * Version:     3.50.0
+ * Version:     3.60.1
  * Author:      MetaSlider
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -42,7 +42,7 @@ if (! class_exists('MetaSliderPlugin')) {
          *
          * @var string
          */
-        public $version = '3.50.0';
+        public $version = '3.60.1';
 
         /**
          * Pro installed version number
@@ -324,6 +324,11 @@ if (! class_exists('MetaSliderPlugin')) {
             // Set date showing the first activation and redirect
             if (! get_option('ms_was_installed_on')) {
                 update_option('ms_was_installed_on', time());
+            }
+
+            // New install (for legacy library)
+            if (get_option('metaslider_new_user') == false) {
+                add_option('metaslider_new_user', 'new');
             }
         }
 
@@ -1191,26 +1196,6 @@ if (! class_exists('MetaSliderPlugin')) {
             return $sliders;
         }
 
-        /*
-        * Get all slideshows that are not Flexslider
-        */
-        public function count_legacy_sliders()
-        {
-            $sliders = $this->all_meta_sliders();
-            $count = 0;
-            foreach ($sliders as $slides) {
-                $settings = get_post_meta($slides['id'], 'ml-slider_settings', true);
-                if (is_array($settings) && isset($settings['type'])) {
-                    $type = $settings['type'];
-                    if($type !== 'flex'){
-                        $count++;
-                    }
-                }
-            }
-            return $count;
-        }
-
-
         /**
          * Compare array values
          *
@@ -1241,7 +1226,14 @@ if (! class_exists('MetaSliderPlugin')) {
 
             // loop through the array and build the settings HTML
             foreach ($settings as $id => $row) {
-                $helptext = isset($row['helptext']) ? htmlentities2($row['helptext']) : '';
+                $helptext       = isset($row['helptext']) ? htmlentities2($row['helptext']) : '';
+                $dependencies   = '';
+                
+                if ( isset( $row['dependencies'] ) ) {
+                    $json = json_encode( $row['dependencies'] );
+                    $dependencies = htmlspecialchars( $json, ENT_QUOTES, 'UTF-8' );
+                    $dependencies = ' data-dependencies="' . $dependencies . '"';
+                }
 
                 $after = '';
                 if (isset($row['after'])) {
@@ -1260,7 +1252,8 @@ if (! class_exists('MetaSliderPlugin')) {
                             <label>
                                 <input type="checkbox" id="" name="settings[' . esc_attr($id) . ']" ' . esc_attr(
                                     $row["checked"]
-                                ) . ' class="' . esc_attr($row["class"]) . '"/>
+                                ) . ' class="' . esc_attr($row["class"]) . '"' . 
+                                $dependencies . '/>
                                 <span></span>
                             </label>
                         </div>';
@@ -1360,7 +1353,8 @@ if (! class_exists('MetaSliderPlugin')) {
                                 $row["label"]
                             ) . '</td><td><select class="option ' . esc_attr($row["class"]) . ' ' . esc_attr(
                                 $id
-                            ) . ' width w-40" name="settings[' . esc_attr($id) . ']">';
+                            ) . ' width w-40" name="settings[' . esc_attr($id) . ']"' . 
+                                $dependencies . '>';
                         foreach ($row['options'] as $option_name => $option_value) {
                             $selected = selected($option_name, $row['value'], false);
                             $disabled = isset( $option_value['addon_required'] ) && $option_value['addon_required'] 
@@ -1647,11 +1641,14 @@ if (! class_exists('MetaSliderPlugin')) {
                             } ?>
                         </div>
 
-                        <div id='post-body' class='-mx-4 flex justify-between metabox-holder'>
+                        <div id='post-body' class='ms-edit-slideshow -mx-4 metabox-holder<?php
+                        echo $this->slider && metaslider_viewing_trashed_slides( $this->slider->id )
+                            ? ' ms-edit-slideshow--trashed-slides' : '';
+                        ?>'>
 
                             <metaslider-slide-viewer inline-template>
-                            <div class="flex-grow mx-4 mb-4">
-                                <div class="left">
+
+                                <div class="left mx-4 mb-4">
 
                                     <?php
                                     do_action("metaslider_admin_table_before", $this->slider->id); ?>
@@ -1668,44 +1665,48 @@ if (! class_exists('MetaSliderPlugin')) {
                                     do_action("metaslider_admin_table_after", $this->slider->id); ?>
 
                                 </div>
-                            </div>
+
                             </metaslider-slide-viewer>
 
-                            <div style="min-width:400px;width:400px" class="mx-4">
-                                <div class='right'>
+                                <div class='right mx-4'>
                                 <?php
                                 if (metaslider_viewing_trashed_slides($this->slider->id)) {
                                     // Show a notice explaining the trash?>
                                     <div class="ms-postbox trashed-notice">
-                                    <div class="notice-info"><?php
-                                        printf(
-                                            esc_html__(
-                                                'You are viewing slides that have been trashed, which will be automatically deleted in %s days.',
-                                                'ml-slider'
-                                            ),
-                                            esc_html(EMPTY_TRASH_DAYS)
-                                        ); ?>
-                                        <?php
-                                        // TODO this is a temp fix to avoid a compatability check in pro
-                                        echo "<input type='checkbox' style='display:none;' checked class='select-slider' rel='flex'></inpu>"; ?>
+                                        <div class="notice-info">
+                                            <p><?php
+                                            printf(
+                                                esc_html__(
+                                                    'You are viewing slides that have been trashed, which will be automatically deleted in %s days.',
+                                                    'ml-slider'
+                                                ),
+                                                esc_html(EMPTY_TRASH_DAYS)
+                                            ); ?></p>
+                                            <p class="mb-0">
+                                                <a href="<?php echo esc_url(
+                                                        admin_url( "admin.php?page=metaslider&id={$this->slider->id}" )
+                                                    ) ?>" class="button button-secondary">
+                                                    <?php esc_html_e( 'Return to Published Slides', 'ml-slider' ) ?>
+                                                </a>
+                                            </p>
+                                            <?php
+                                            // TODO this is a temp fix to avoid a compatability check in pro
+                                            echo "<input type='checkbox' style='display:none;' checked class='select-slider' rel='flex'></inpu>"; ?>
+                                        </div>
                                     </div>
-                                    </div>
-                                    <p>
-                                        <a href="<?php echo esc_url(
-                                                admin_url( "admin.php?page=metaslider&id={$this->slider->id}" )
-                                            ) ?>" class="button button-secondary">
-                                            <?php esc_html_e( 'Return to Published Slides', 'ml-slider' ) ?>
-                                        </a>
-                                    </p>
                                     <?php
                                 } else {
                                     $global_settings = $this->get_global_settings();
+                                    $new_install = get_option('metaslider_new_user');
                             ?>
                                     <metaslider-settings-viewer inline-template>
                                         <div>
                                             <div id="metaslider_configuration">
                                                 <?php
-                                                if(isset($global_settings['legacy']) && true == $global_settings['legacy']) {
+                                                if (
+                                                    (isset($global_settings['legacy']) && true == $global_settings['legacy']) ||
+                                                    (isset($new_install)  && 'new' == $new_install)
+                                                ) {
                                                     if($this->slider->get_setting('type') == 'flex') {
                                                         include METASLIDER_PATH . "admin/views/pages/parts/slider-settings.php";
                                                     } else {
@@ -1729,12 +1730,11 @@ if (! class_exists('MetaSliderPlugin')) {
                                     <div class="ms-delete-save">
                                         <a @click.prevent="deleteSlideshow()" class='ms-delete-slideshow' href='<?php
                                         echo esc_url($url) ?>'><?php
-                                            esc_html_e('Delete slideshow', 'ml-slider'); ?></a>
+                                            esc_html_e('Move slideshow to trash', 'ml-slider'); ?></a>
                                     </div>
                                     </div>
                                 <?php
                                 } ?>
-                            </div>
                         </div>
                     </div>
                 </div>

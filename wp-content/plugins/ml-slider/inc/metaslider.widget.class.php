@@ -76,7 +76,7 @@ class MetaSlider_Widget extends WP_Widget
     {
         $selected_slider = 0;
         $title = "";
-        $sliders = false;
+        $sliders = array();
 
         if (isset($instance['slider_id'])) {
             $selected_slider = $instance['slider_id'];
@@ -107,7 +107,7 @@ class MetaSlider_Widget extends WP_Widget
 
         ?>
         <p>
-            <?php if ($sliders) { ?>
+            <?php if (count($sliders) > 0) { ?>
                 <p>
                     <label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:', 'ml-slider'); ?></label>
                     <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>" />

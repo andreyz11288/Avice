@@ -102,9 +102,6 @@ get_header();
 <?php get_footer(); ?>
 
 <style>
-    body {
-        overflow: hidden;
-    }
     .contact-page .btn-holder .img-1 {
         justify-content: flex-end;
     }

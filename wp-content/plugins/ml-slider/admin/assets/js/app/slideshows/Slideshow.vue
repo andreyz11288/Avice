@@ -97,6 +97,11 @@ export default {
 			!this.tourStatus && this.id && this.startTour()
 		})
 
+		// Listen when trying to edit a slide in trashed slides screen
+		EventManager.$on('metaslider/cant-edit-trashed-slide', () => {
+			this.notifyError('metaslider/slide-edit-failed', this.__('To edit this slide, click "Restore" and then "Return to Published Slides"', 'ml-slider'), true)
+		})
+
 		if (!this.showOptIn) {
 			EventManager.$emit('metaslider/start-tour')
 		}
@@ -267,13 +272,14 @@ export default {
 					this.notifySuccess('metaslider/tour-cancelled-failed', this.__('Tour cancelled unsuccessfully', 'ml-slider'), false)
 				})
 		},
+		// NOTE: this doesn't permanently delete, just move to trash
 		deleteSlideshow() {
 			Swal.queue([{
 				icon: 'warning',
 				iconHtml: '<div class="dashicons dashicons-warning" style="transform: scale(3.5);"></div>',
 				title: this.__('Are you sure?', 'ml-slider'),
-				text: this.__('You will not be able to undo this.', 'ml-slider'),
-				confirmButtonText: this.__('Delete', 'ml-slider'),
+				text: this.__('This slideshow will be moved to the "Trash" area.', 'ml-slider'),
+				confirmButtonText: this.__('Confirm', 'ml-slider'),
 				showCancelButton: true,
 				confirmButtonColor: '#e82323',
 				focusCancel: true,
@@ -286,9 +292,6 @@ export default {
 						slideshow_id: this.current.id
 					})).then(response => {
 						console.log('MetaSlider:', response.data.data)
-
-						// Set the next slideshow to show. If false, just reload the page.
-						this.nextSlideshow = Number.isInteger(response.data.data.message) ? response.data.data.message : false
 					}).catch(error => {
 						let errorMessage = this.getErrorMessage(error.response)
 						this.notifyError('metaslider/delete-error', error)
@@ -303,16 +306,16 @@ export default {
 			}]).then(result => {
 				localStorage.removeItem('metaslider-vuex-' + this.siteId)
 				if (!result.dismiss) {
-
-					// use replace becasue the resource is deleted
-					this.nextSlideshow && window.location.replace(this.metasliderPage + '&id=' + this.nextSlideshow)
-
-					// If no next slideshow then just reload the current page
-					this.nextSlideshow || window.location.reload(true)
+					// use replace because the resource is deleted
+					window.location.replace(
+						this.current.id 
+							? this.metasliderPage + '&action=delete&slideshows=' + this.current.id
+							: this.metasliderPage
+					);
 				}
 
 			})
-		}
+		},
 	}
 }
 </script>

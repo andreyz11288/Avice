@@ -69,7 +69,12 @@ class MetaSlider_Themes
             $global_settings = $settings;
         }
         
-        if(isset($global_settings['legacy']) && true == $global_settings['legacy']) {
+        $new_install = get_option('metaslider_new_user');
+        
+        if (
+            (isset($global_settings['legacy']) && true == $global_settings['legacy']) ||
+            (isset($new_install)  && 'new' == $new_install)
+        ) {
             $themes = (include METASLIDER_THEMES_PATH . 'manifest.php');
             $manifest_file = 'manifest.php';
         } else {

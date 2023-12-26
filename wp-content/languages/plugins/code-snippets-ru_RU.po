@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Code Snippets - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-07-10 10:34:35+0000\n"
+"PO-Revision-Date: 2023-11-11 14:52:48+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -59,11 +59,11 @@ msgstr "Цвет текста"
 msgid "Type"
 msgstr "Тип"
 
-#: php/class-plugin.php:316 php/class-snippet.php:189 dist/edit.js:2
+#: php/class-plugin.php:317 php/class-snippet.php:189 dist/edit.js:2
 msgid "Styles"
 msgstr "Стили"
 
-#: php/class-plugin.php:317 php/class-snippet.php:190 dist/edit.js:2
+#: php/class-plugin.php:318 php/class-snippet.php:190 dist/edit.js:2
 msgid "Scripts"
 msgstr "Скрипты"
 
@@ -102,12 +102,12 @@ msgstr "Последнее изменение %s"
 msgid "You can find out how to enable safe mode in the <a href=\"https://help.codesnippets.pro/article/12-safe-mode\">Code Snippets Pro Docs</a>."
 msgstr "Вы можете узнать, как включить безопасный режим, в <a href=\"https://help.codesnippets.pro/article/12-safe-mode\">документации Code Snippets Pro</a>."
 
-#: php/class-plugin.php:314 php/class-snippet.php:188 php/class-snippet.php:314
+#: php/class-plugin.php:315 php/class-snippet.php:188 php/class-snippet.php:314
 #: dist/edit.js:2
 msgid "Content"
 msgstr "Содержимое"
 
-#: php/class-plugin.php:313 php/class-snippet.php:187 dist/edit.js:2
+#: php/class-plugin.php:314 php/class-snippet.php:187 dist/edit.js:2
 msgid "Functions"
 msgstr "Функции"
 

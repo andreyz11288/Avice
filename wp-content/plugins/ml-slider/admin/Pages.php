@@ -69,6 +69,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
         wp_enqueue_script('jquery-ui-sortable');
         wp_register_script('metaslider-admin-script', METASLIDER_ADMIN_URL . 'assets/dist/js/admin.js', array('jquery', 'plupload-all'), METASLIDER_ASSETS_VERSION, true);
         
+        $global_settings = get_option( 'metaslider_global_settings' );
+
         wp_localize_script('metaslider-admin-script', 'metaslider', array(
             'url' => esc_html__("URL", "ml-slider"),
             'caption' => esc_html__("Caption", "ml-slider"),
@@ -92,6 +94,9 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
             'legacy_notification_nonce' => wp_create_nonce('metaslider_legacy_notification'),
             'useWithCaution' => esc_html__("Caution: This setting is for advanced developers only. If you're unsure, leave it checked.", "ml-slider"),
             'locale' => preg_replace('/[^a-z]/', '', get_locale()),
+            'newSlideOrder' => isset( $global_settings['newSlideOrder'] ) 
+                && $global_settings['newSlideOrder'] === 'first' 
+                ? esc_html( $global_settings['newSlideOrder'] ) : 'last'
         ));
         wp_enqueue_script('metaslider-admin-script');
         do_action('metaslider_register_admin_scripts');

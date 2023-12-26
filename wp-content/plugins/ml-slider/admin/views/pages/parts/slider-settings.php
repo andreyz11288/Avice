@@ -56,6 +56,12 @@
                 'label' => __("Effect", "ml-slider"),
                 'class' => 'effect flex width w-40',
                 'helptext' => __("Slide transition effect", "ml-slider"),
+                'dependencies' => array(
+                    array(
+                        'show' => 'easing', // Show Easing setting
+                        'when' => 'slide' // When Effect is 'slide'
+                    )
+                ),
                 'options' => array(
                     'fade' => array(
                         'class' => 'option flex',
@@ -78,6 +84,16 @@
                 'helptext' => __(
                     "Show the previous/next arrows",
                     "ml-slider"
+                ),
+                'dependencies' => array(
+                    array(
+                        'show' => 'prevText', // Show Previous text setting
+                        'when' => true // When Arrows is true
+                    ),
+                    array(
+                        'show' => 'nextText', // Show Next text setting
+                        'when' => true // When Arrows is true
+                    )
                 )
             ),
             'navigation' => array(
@@ -415,7 +431,7 @@
             'label' => esc_html__("Easing", "ml-slider"),
             'class' => 'option flex',
             'helptext' => esc_html__(
-                "Easing is only available with the 'Slide' transition setting",
+                "Easing enhances the motion dynamics during transitions and is exclusively accessible when the 'Slide' transition setting is chosen.",
                 "ml-slider"
             ),
             'value' => $this->slider->get_setting('easing'),
@@ -459,7 +475,7 @@
             'label' => esc_html__("CSS classes", "ml-slider"),
             'class' => 'option flex',
             'helptext' => esc_html__(
-                "Specify any custom CSS Classes you would like to be added to the slider wrapper",
+                "Enter custom CSS classes to apply to the slider wrapper. Separate multiple classes with a space.",
                 "ml-slider"
             ),
             'value' => $this->slider->get_setting(
@@ -475,7 +491,7 @@
                 'printCss'
             ) == 'true' ? 'checked' : '',
             'helptext' => esc_html__(
-                "Uncheck this is you would like to include your own CSS",
+                "Uncheck this if you would like to include your own CSS",
                 "ml-slider"
             )
         ),
@@ -488,7 +504,7 @@
                 'printJs'
             ) == 'true' ? 'checked' : '',
             'helptext' => esc_html__(
-                "Uncheck this is you would like to include your own Javascript",
+                "Uncheck this if you would like to include your own Javascript",
                 "ml-slider"
             )
         ),

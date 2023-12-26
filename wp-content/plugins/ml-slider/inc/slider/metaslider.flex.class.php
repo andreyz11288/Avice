@@ -30,7 +30,7 @@ class MetaFlexSlider extends MetaSlider
 
         add_filter('metaslider_flex_slider_parameters', array( $this, 'enable_carousel_mode' ), 10, 2);
         add_filter('metaslider_flex_slider_parameters', array( $this, 'manage_easing' ), 10, 2);
-        
+
         if(metaslider_pro_is_active() == false) {
             add_filter('metaslider_flex_slider_parameters', array( $this, 'metaslider_flex_loop'), 99, 3);
         }

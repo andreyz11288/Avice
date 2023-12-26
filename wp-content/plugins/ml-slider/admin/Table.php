@@ -185,6 +185,14 @@ class MetaSlider_Admin_Table extends WP_List_table
                         'ID' => $slideshow_id,
                         'post_status' => 'publish'
                     ));
+
+                    $slides = $this->get_slides($slideshow_id, 'trash');
+                    foreach ($slides as $key => $slide) {
+                        wp_update_post(array(
+                            'ID' => $slide->ID,
+                            'post_status' => 'publish'
+                        ));
+                    }
                 }
                 break;
             default:
@@ -249,11 +257,11 @@ class MetaSlider_Admin_Table extends WP_List_table
         return $slidethumb;
     }
 
-    public function slideshow_thumb($slideshowId)
+    public function get_slides($slideshowId, $status)
     {
         $slides = get_posts(array(
             'post_type' => array('ml-slide'),
-            'post_status' => array('publish'),
+            'post_status' => array($status),
             'lang' => '',
             'suppress_filters' => 1,
             'posts_per_page' => -1,
@@ -266,6 +274,12 @@ class MetaSlider_Admin_Table extends WP_List_table
             )
         ));
 
+        return $slides;
+    }
+
+    public function slideshow_thumb($slideshowId)
+    {
+        $slides = $this->get_slides($slideshowId, 'publish');
         $numberOfSlides = count($slides);
         $logo = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents(dirname(__FILE__) . '/assets/metaslider.svg'));
         $thumbHtml = "<div class='w-16 h-16 bg-gray-light'>";
