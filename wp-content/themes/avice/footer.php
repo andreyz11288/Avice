@@ -26,7 +26,5 @@
 </div>
 </div>
 </div>
-<script type="text/javascript">window.__NUXT__={layout:"default",data:[{}],error:null,state:{currentLayer:0,leavingLayer:5},serverRendered:!0}</script>
-<script type="text/javascript">!function(){window._pa=window._pa||{};var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==document.location.protocol?"https:":"http:")+"//tag.marinsm.com/serve/5b9a1ff7120afafab5000075.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script>
 <?php wp_footer() ?>
 </body></html>

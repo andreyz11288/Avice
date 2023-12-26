@@ -11,7 +11,7 @@ get_header();
     <div id="backgrounds">
         <div class="back back0"></div>
         <div class="back back1"></div>
-        <div class="back back2 active"></div>
+        <div class="back back2"></div>
     </div>
     <div>
         <main id="main">

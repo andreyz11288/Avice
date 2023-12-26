@@ -325,175 +325,139 @@ new SineWaveGenerator({
   },
 })
 
-jQuery(document).ready(function ($) {
-  $(window).scroll(function () {
-    var scroll = $(window).scrollTop()
-    var header = $('#header')
-    var headerHolder = $('.header-holder')
-    var headerHolder2 = $('.header-holder2')
+const element = document.getElementById('team-section')
 
-    if (scroll > 0) {
-      header.addClass('fixed-position')
-    } else {
-      header.removeClass('fixed-position')
-    }
-  })
-})
+if (element) {
+  new SineWaveGenerator({
+    el: document.getElementById('waves5'),
 
-// поочереди меняет текст --------------------------------------------------------------------------------------------------------------------------------------------
+    speed: 10,
 
-document.addEventListener('DOMContentLoaded', function () {
-  // Выбираем все элементы с классами "layer1", "layer2" и "layer3"
-  var layers = document.querySelectorAll('.layer')
-  // var layers1 = document.querySelectorAll('.layer1')
-  var currentIndex = 0
+    waves: [
+      {
+        timeModifier: 1,
+        lineWidth: 10,
+        amplitude: 100,
+        wavelength: 250,
+        segmentLength: 20,
+        //       strokeStyle: 'rgba(255, 255, 255, 0.5)'
+      },
+      {
+        timeModifier: 1,
+        lineWidth: 8,
+        amplitude: 150,
+        wavelength: 100,
+        //       strokeStyle: 'rgba(255, 255, 255, 0.3)'
+      },
+    ],
 
-  // Функция, которая отображает следующий элемент и скрывает предыдущий
-  function showNextLayer() {
-    // Скрываем текущий элемент
-    layers[currentIndex].style.display = 'none'
-    // layers1[currentIndex].style.display = 'none'
+    initialize: function () {},
 
-    // Переходим к следующему элементу
-    currentIndex = (currentIndex + 1) % layers.length
-    // currentIndex = (currentIndex + 1) % layers1.length
+    resizeEvent: function () {
+      var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0)
+      gradient.addColorStop(0, 'rgba(0, 205, 255, 0)')
+      gradient.addColorStop(0.5, 'rgba(0, 205, 255, 0.5)')
+      gradient.addColorStop(1, 'rgba(0, 205, 255, 0)')
 
-    // Отображаем следующий элемент
-    layers[currentIndex].style.display = 'block'
-    // layers1[currentIndex].style.display = 'block'
-  }
-
-  // Показываем первый элемент
-  layers[currentIndex].style.display = 'block'
-  // layers1[currentIndex].style.display = 'block'
-
-  // Запускаем интервал для отображения слоев с интервалом в 5 секунд
-  setInterval(showNextLayer, 10000)
-})
-// поочереди меняет текст --------------------------------------------------------------------------------------------------------------------------------------------
-
-// скролл -------------------------------------------------------------------------------------------------------------------------------------------------------
-document.addEventListener('DOMContentLoaded', function () {
-  var scrollUpButton = document.querySelector('.scroll-up')
-
-  // Функция для добавления/удаления класса в зависимости от прокрутки
-  function toggleScrollUpClass() {
-    if (window.scrollY > 100) {
-      scrollUpButton.classList.add('scrollUp-show')
-    } else {
-      scrollUpButton.classList.remove('scrollUp-show')
-    }
-  }
-
-  // Обработчик события прокрутки
-  window.addEventListener('scroll', toggleScrollUpClass)
-
-  // Обработчик события клика для прокрутки вверх
-  scrollUpButton.addEventListener('click', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' }) // Плавная прокрутка вверх
-  })
-
-  // Вызываем функцию для начальной проверки при загрузке страницы
-  toggleScrollUpClass()
-})
-
-// скролл -------------------------------------------------------------------------------------------------------------------------------------------------------
-
-document.addEventListener('DOMContentLoaded', function () {
-  // Выбираем все элементы с классом 'word'
-  var words = document.querySelectorAll('.word')
-
-  // Функция, которая меняет классы местами с задержкой
-  function toggleClasses() {
-    words.forEach(function (word) {
-      // Находим все элементы с классами 'out' и 'in' внутри текущего элемента 'word'
-      var letterOut = word.querySelectorAll('.letter.out')
-      var letterIn = word.querySelectorAll('.letter.in')
-
-      // Переключаем классы для каждого элемента с задержкой
-      letterOut.forEach(function (letter, index) {
-        setTimeout(function () {
-          letter.classList.toggle('out')
-          letter.classList.toggle('in')
-        }, index * 50) // 500 миллисекунд (0,5 сек) * индекс элемента
-      })
-
-      letterIn.forEach(function (letter, index) {
-        setTimeout(function () {
-          letter.classList.toggle('out')
-          letter.classList.toggle('in')
-        }, index * 50) // 500 миллисекунд (0,5 сек) * индекс элемента
-      })
-    })
-  }
-
-  // Запускаем интервал для изменения классов с задержкой каждые 3 секунды
-  setInterval(toggleClasses, 3000)
-})
-
-//слайдер и текст ----------------------------------------------------------------------------------------------------------------------------------------------------
-document.addEventListener('DOMContentLoaded', function () {
-  var slides = document.querySelectorAll('.slide')
-  var progress = document.querySelector('.progress')
-  var layers = document.querySelectorAll('.layer1')
-  var activeSlideIndex = 0
-
-  function setSlideClasses() {
-    slides[activeSlideIndex].classList.add('active')
-    slides[(activeSlideIndex + 1) % slides.length].classList.add('fadeOut')
-    progress.classList.add('active')
-    progress.firstElementChild.style.transitionDuration = '10000ms'
-    layers[activeSlideIndex].style.display = 'block'
-  }
-
-  setSlideClasses()
-
-  var intervalId = setInterval(function () {
-    progress.classList.remove('active')
-    progress.firstElementChild.style.transitionDuration = '0ms'
-
-    slides[activeSlideIndex].classList.remove('active')
-    slides[(activeSlideIndex + 1) % slides.length].classList.remove('fadeOut')
-    layers[activeSlideIndex].style.display = 'none'
-
-    activeSlideIndex = (activeSlideIndex + 1) % slides.length
-
-    slides[activeSlideIndex].classList.add('active')
-    slides[(activeSlideIndex + 1) % slides.length].classList.add('fadeOut')
-    layers[activeSlideIndex].style.display = 'block'
-
-    setTimeout(function () {
-      progress.classList.add('active')
-      progress.firstElementChild.style.transitionDuration = '10000ms'
-    }, 100)
-  }, 10000)
-})
-
-//слайдер и текст ----------------------------------------------------------------------------------------------------------------------------------------------------
-
-document.addEventListener('DOMContentLoaded', function () {
-  var showInElements = document.querySelectorAll('.show-in')
-
-  function handleScroll() {
-    showInElements.forEach(function (element) {
-      var rect = element.getBoundingClientRect()
-
-      // Проверяем, если элемент появляется в видимой области
-      if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-        element.setAttribute('now', 'now')
-      } else {
-        // Если элемент не виден, можно удалить атрибут now
-        element.removeAttribute('now')
+      var index = -1
+      var length = this.waves.length
+      while (++index < length) {
+        this.waves[index].strokeStyle = gradient
       }
-    })
-  }
 
-  // Добавляем обработчик события прокрутки
-  window.addEventListener('scroll', handleScroll)
+      // Clean Up
+      index = void 0
+      length = void 0
+      gradient = void 0
+    },
+  })
+  new SineWaveGenerator({
+    el: document.getElementById('waves6'),
 
-  // Вызываем обработчик события прокрутки при загрузке страницы для начальной проверки
-  handleScroll()
-})
+    speed: 10,
+
+    waves: [
+      {
+        timeModifier: 1,
+        lineWidth: 10,
+        amplitude: 100,
+        wavelength: 250,
+        segmentLength: 20,
+        //       strokeStyle: 'rgba(255, 255, 255, 0.5)'
+      },
+      {
+        timeModifier: 1,
+        lineWidth: 8,
+        amplitude: 150,
+        wavelength: 100,
+        //       strokeStyle: 'rgba(255, 255, 255, 0.3)'
+      },
+    ],
+
+    initialize: function () {},
+
+    resizeEvent: function () {
+      var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0)
+      gradient.addColorStop(0, 'rgba(0, 205, 255, 0)')
+      gradient.addColorStop(0.5, 'rgba(0, 205, 255, 0.5)')
+      gradient.addColorStop(1, 'rgba(0, 205, 255, 0)')
+
+      var index = -1
+      var length = this.waves.length
+      while (++index < length) {
+        this.waves[index].strokeStyle = gradient
+      }
+
+      // Clean Up
+      index = void 0
+      length = void 0
+      gradient = void 0
+    },
+  })
+  new SineWaveGenerator({
+    el: document.getElementById('waves7'),
+
+    speed: 10,
+
+    waves: [
+      {
+        timeModifier: 1,
+        lineWidth: 10,
+        amplitude: 100,
+        wavelength: 250,
+        segmentLength: 20,
+        //       strokeStyle: 'rgba(255, 255, 255, 0.5)'
+      },
+      {
+        timeModifier: 1,
+        lineWidth: 8,
+        amplitude: 150,
+        wavelength: 100,
+        //       strokeStyle: 'rgba(255, 255, 255, 0.3)'
+      },
+    ],
+
+    initialize: function () {},
+
+    resizeEvent: function () {
+      var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0)
+      gradient.addColorStop(0, 'rgba(0, 205, 255, 0)')
+      gradient.addColorStop(0.5, 'rgba(0, 205, 255, 0.5)')
+      gradient.addColorStop(1, 'rgba(0, 205, 255, 0)')
+
+      var index = -1
+      var length = this.waves.length
+      while (++index < length) {
+        this.waves[index].strokeStyle = gradient
+      }
+
+      // Clean Up
+      index = void 0
+      length = void 0
+      gradient = void 0
+    },
+  })
+}
 
 //******************************************************
 // Yet Another Particle Engine

@@ -2621,7 +2621,14 @@ h3 {
 .benefits-section .col .img-holder #waves1,
 .benefits-section .col .img-holder #waves2,
 .benefits-section .col .img-holder #waves3,
-.benefits-section .col .img-holder #waves4 {
+.benefits-section .col .img-holder #waves4,
+.team-section .col .img-holder #waves1,
+.team-section .col .img-holder #waves2,
+.team-section .col .img-holder #waves3,
+.team-section .col .img-holder #waves4,
+.team-section .col .img-holder #waves5,
+.team-section .col .img-holder #waves6,
+.team-section .col .img-holder #waves7 {
   position: relative;
   top: -1vw;
   width: 10.5vw !important;
